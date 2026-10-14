@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Halloween Spooky Gift Generator 🎃</title>
+  <meta name="description" content="Швидкий Хелловінський конструктор подарунків та солодощів за критеріями отримувача, події та бюджету.">
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+  <a class="skip-link" href="#constructor">Перейти до конструктора</a>
+
+  <!-- Sticky header with navigation -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="#top">🎃 <span>Spooky Gifts</span></a>
+      <nav class="main-nav" aria-label="Основна навігація">
+        <ul>
+          <li><a href="#constructor">Конструктор</a></li>
+          <li><a href="#how">Як це працює</a></li>
+          <li><a href="#faq">Питання</a></li>
+          <li><a href="admin.html">🔐 Адмін-панель</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" id="top">
+    <!-- Compact hero: keeps the constructor visible right below -->
+    <section class="hero" aria-labelledby="heroTitle">
+      <h1 class="app-title" id="heroTitle">🎃 HALLOWEEN SPOOKY GIFTS 🦇</h1>
+      <p class="app-subtitle">Підберемо три магічні бокси за отримувачем, подією та бюджетом — за пів хвилини.</p>
+      <a class="hero-cta" href="#constructor">Перейти до конструктора ↓</a>
+    </section>
+
+    <!-- Constructor form (validation is pure HTML + CSS) -->
+    <section class="form-card" id="constructor" aria-labelledby="formTitle">
+      <h2 class="section-title" id="formTitle">Конструктор подарунка</h2>
+      <form id="spookySearchForm" action="#results">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label" for="recipientSelect">👻 Кому готуємо подарунок? *</label>
+            <select class="form-select" id="recipientSelect" name="recipient" required>
+              <option value="">-- Оберіть отримувача --</option>
+              <option value="Вампір / Дракула">🧛‍♂️ Вампір / Дракула</option>
+              <option value="Гарбузовий Король">🎃 Гарбузовий Король</option>
+              <option value="Відьмочка / Чаклунка">🧙‍♀️ Відьмочка / Чаклунка</option>
+              <option value="Привид / Дух">👻 Привид / Дух</option>
+              <option value="Зомбі-Друг">🧟 Зомбі-Друг</option>
+              <option value="Вовкулака">🐺 Вовкулака</option>
+              <option value="Магічний Колега">🧹 Магічний Колега</option>
+              <option value="Маленький Монстрик">🍬 Маленький Монстрик (Дитина)</option>
+            </select>
+            <p class="field-error">Оберіть отримувача зі списку.</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="occasionSelect">🔮 Яка містична подія? *</label>
+            <select class="form-select" id="occasionSelect" name="occasion" required>
+              <option value="">-- Оберіть подію --</option>
+              <option value="Ніч Хелловіна (31 Жовтня)">🎃 Ніч Хелловіна (31 Жовтня)</option>
+              <option value="Відьомський Шабаш">🔮 Відьомський Шабаш</option>
+              <option value="Костюмована Вечірка">👻 Костюмована Вечірка</option>
+              <option value="Trick or Treat!">🍬 Trick or Treat! (Солодощі)</option>
+              <option value="Повня та Містика">🌕 Повня та Містичний вечір</option>
+            </select>
+            <p class="field-error">Оберіть подію зі списку.</p>
+          </div>
+
+          <div class="form-group full-width">
+            <label class="form-label" for="budgetInput">💰 Ваш бюджет у монетах (₴) *</label>
+            <input type="number" class="form-input" id="budgetInput" name="budget"
+                   placeholder="Наприклад: 1000" min="300" max="100000" step="10"
+                   inputmode="numeric" required aria-describedby="budgetHint">
+            <p class="field-hint" id="budgetHint">Мінімум 300 ₴, крок 10 ₴.</p>
+            <p class="field-error err-empty">Вкажіть бюджет.</p>
+            <p class="field-error err-range">Бюджет має бути від 300 до 100 000 ₴ (крок 10).</p>
+          </div>
+
+          <div class="form-group full-width">
+            <button type="submit" class="btn-submit">Згенерувати Хелловінські Бокси 🎃</button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <!-- Results -->
+    <section class="result-section" id="results" aria-live="polite" aria-label="Результат">
+      <div class="empty-state-card">
+        <div class="empty-icon">🎃</div>
+        <div class="empty-title">Магічні бокси ще не сформовано</div>
+        <div class="empty-text">Оберіть отримувача, подію та вкажіть бюджет — і ми покажемо три варіанти поруч.</div>
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="info-section" id="how" aria-labelledby="howTitle">
+      <h2 class="section-title" id="howTitle">Як це працює</h2>
+      <ol class="steps">
+        <li><span class="step-num">1</span><div><strong>Оберіть отримувача та подію</strong><p>Від вампіра до маленького монстрика — заголовок набору підлаштується під героя.</p></div></li>
+        <li><span class="step-num">2</span><div><strong>Вкажіть бюджет</strong><p>Ми підберемо коробку та солодощі так, щоб сума не перевищила ваш ліміт.</p></div></li>
+        <li><span class="step-num">3</span><div><strong>Порівняйте три варіанти</strong><p>Усі бокси в одному ряду. Не сподобались — згенеруйте нові або скопіюйте список.</p></div></li>
+      </ol>
+    </section>
+
+    <!-- FAQ -->
+    <section class="info-section" id="faq" aria-labelledby="faqTitle">
+      <h2 class="section-title" id="faqTitle">Часті запитання</h2>
+      <details class="faq-item">
+        <summary>Чому сума боксу менша за мій бюджет?</summary>
+        <p>Ми додаємо товари, поки вони вміщаються в бюджет. Залишок показано на кожній картці.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Чому мінімальний бюджет — 300 ₴?</summary>
+        <p>Це вартість найдешевшої коробки плюс щонайменше один подарунок усередині.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Чи можна отримати інший набір?</summary>
+        <p>Так, натисніть «Згенерувати інші бокси» — склад перемішається.</p>
+      </details>
+      <details class="faq-item">
+        <summary>Чи це справжній магазин?</summary>
+        <p>Ні, це навчальний конструктор: назви та ціни умовні, замовлення не оформлюється.</p>
+      </details>
+    </section>
+  </main>
+
+  <footer class="site-footer">🦇 Spooky Gifts · навчальний проєкт</footer>
+  <script src="app.js"></script>
+</body>
+</html>

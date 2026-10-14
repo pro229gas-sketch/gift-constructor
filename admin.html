@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Адмін-панель — Spooky Gifts</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { min-height: 100vh; }
+    .admin-only-header { padding: 1.2rem; border-bottom: 1px solid var(--panel-border); background: rgba(8,5,14,.9); }
+    .admin-only-header-inner { max-width: 1100px; margin: auto; display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap; }
+    .admin-only-header a { color:var(--pumpkin-glow); text-decoration:none; font-weight:700; }
+    .admin-only-main { width:min(1100px, 100%); margin:2rem auto; padding:0 1rem 3rem; }
+    .admin-section { display:block; margin:0; }
+    .admin-only-subtitle { color:var(--text-muted); margin:-.5rem 0 1.5rem; }
+    .admin-editing { flex-wrap:wrap; gap:.4rem; }
+    .admin-editing .form-input { flex:1 1 160px; min-width:0; }
+    .admin-editing .admin-icon { flex:0 0 64px; }
+    .admin-editing .admin-price-edit { flex:0 0 100px; }
+    .admin-ok { color:#7CFC9A; }
+    /* Кастомний скролбар */
+    html { scrollbar-width: thin; scrollbar-color: var(--pumpkin-glow) rgba(8,5,14,.9); }
+    .admin-list { max-height: 320px; overflow-y: auto; overscroll-behavior: contain; padding-right: .4rem; scrollbar-width: thin; scrollbar-color: var(--pumpkin-glow) rgba(255,255,255,.06); scroll-behavior: smooth; }
+    ::-webkit-scrollbar { width: 12px; height: 12px; }
+    ::-webkit-scrollbar-track { background: rgba(8,5,14,.9); }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--pumpkin-glow), #7a2d00); border-radius: 10px; border: 3px solid rgba(8,5,14,.9); }
+    ::-webkit-scrollbar-thumb:hover { background: var(--pumpkin-glow); }
+    .admin-list::-webkit-scrollbar { width: 8px; }
+    .admin-list::-webkit-scrollbar-track { background: rgba(255,255,255,.06); border-radius: 10px; }
+    .admin-list::-webkit-scrollbar-thumb { border: 0; border-radius: 10px; }
+  </style>
+</head>
+<body>
+  <header class="admin-only-header">
+    <div class="admin-only-header-inner">
+      <a href="admin.html">🎃 Spooky Gifts / Адмін-панель</a>
+      <a href="index.html">← На головну</a>
+    </div>
+  </header>
+
+  <main class="admin-only-main">
+    <section class="admin-section" id="admin" aria-labelledby="adminTitle">
+      <h1 class="section-title" id="adminTitle">🔐 Адмін-панель</h1>
+      <p class="admin-only-subtitle">Керування отримувачами, подіями, товарами, коробками та бюджетом.</p>
+
+      <div id="adminLogin">
+        <p class="admin-note">Введіть пароль адміністратора (демо-пароль: <code>admin123</code>).</p>
+        <div class="admin-row">
+          <input type="password" class="form-input" id="adminPass" placeholder="Пароль" autocomplete="current-password" aria-label="Пароль адміністратора">
+          <button type="button" class="admin-btn" id="adminLoginBtn">Увійти</button>
+        </div>
+        <p class="admin-msg" id="adminLoginMsg" role="alert"></p>
+      </div>
+
+      <div id="adminPanel" hidden>
+        <div class="admin-grid">
+          <div class="admin-box">
+            <h3>👻 Отримувачі</h3>
+            <ul class="admin-list" id="adminRecipients"></ul>
+            <div class="admin-row">
+              <input type="text" class="form-input" id="newRecipient" placeholder="Новий отримувач" maxlength="60">
+              <button type="button" class="admin-btn" id="addRecipientBtn">Додати</button>
+            </div>
+          </div>
+          <div class="admin-box">
+            <h3>🔮 Події</h3>
+            <ul class="admin-list" id="adminOccasions"></ul>
+            <div class="admin-row">
+              <input type="text" class="form-input" id="newOccasion" placeholder="Нова подія" maxlength="60">
+              <button type="button" class="admin-btn" id="addOccasionBtn">Додати</button>
+            </div>
+          </div>
+          <div class="admin-box">
+            <h3>💰 Ліміти бюджету (₴)</h3>
+            <div class="admin-row"><label for="adminMin">Мінімум</label><input type="number" class="form-input" id="adminMin" min="10" step="10"></div>
+            <div class="admin-row"><label for="adminMax">Максимум</label><input type="number" class="form-input" id="adminMax" min="10" step="10"></div>
+            <div class="admin-row"><button type="button" class="admin-btn" id="saveBudgetBtn">Зберегти ліміти</button></div>
+          </div>
+        </div>
+
+        <div class="admin-grid admin-grid-wide">
+          <div class="admin-box">
+            <h3>🎁 Товари в боксах</h3>
+            <ul class="admin-list" id="adminItems"></ul>
+            <div class="admin-row">
+              <input type="text" class="form-input admin-icon" id="newItemIcon" placeholder="🎃" maxlength="4" aria-label="Іконка товару">
+              <input type="text" class="form-input" id="newItemName" placeholder="Назва товару" maxlength="80">
+              <input type="number" class="form-input admin-price" id="newItemPrice" placeholder="Ціна ₴" min="10" step="10">
+              <button type="button" class="admin-btn" id="addItemBtn">Додати</button>
+            </div>
+          </div>
+          <div class="admin-box">
+            <h3>📦 Коробки</h3>
+            <ul class="admin-list" id="adminBoxes"></ul>
+            <div class="admin-row">
+              <input type="text" class="form-input admin-icon" id="newBoxIcon" placeholder="📦" maxlength="4" aria-label="Іконка коробки">
+              <input type="text" class="form-input" id="newBoxName" placeholder="Назва коробки" maxlength="80">
+              <input type="number" class="form-input admin-price" id="newBoxPrice" placeholder="Ціна ₴" min="10" step="10">
+              <button type="button" class="admin-btn" id="addBoxBtn">Додати</button>
+            </div>
+          </div>
+        </div>
+        <p class="admin-msg" id="adminMsg" role="status"></p>
+        <div class="admin-actions">
+          <button type="button" class="admin-btn secondary" id="adminResetBtn">Скинути до початкових</button>
+          <button type="button" class="admin-btn danger" id="adminLogoutBtn">Вийти</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <script src="admin.js"></script>
+</body>
+</html>
